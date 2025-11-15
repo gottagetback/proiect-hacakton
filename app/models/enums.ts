@@ -4,6 +4,13 @@ export enum TraficLightStatus {
   MANUAL = "MANUAL",
 }
 
+export enum TraficLightColorState {
+  RED = "RED",
+  GREEN = "GREEN",
+  YELLOW = "YELLOW",
+  GRAY = "GRAY",
+}
+
 export enum DetectionObjectType {
   person = "person",
   car = "car",

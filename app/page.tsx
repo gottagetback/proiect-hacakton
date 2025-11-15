@@ -1,19 +1,55 @@
-import MapView, { Checkpoint } from "./components/MapView";
-import NavBar from "./components/NavBar";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
-  const checkpoints: Checkpoint[] = [
-    { id: "1", title: "Checkpoint 1", position: { lat: 45.7410646, lng: 21.2165898 } },
-    { id: "2", title: "Checkpoint 2", position: { lat: 45.743, lng: 21.22 } },
-  ];
+import { useEffect, useState } from "react";
+import styles from "./.DashboardPage.module.css";
+import { DashboardHeader } from "./components/DashboardHeader";
+import { IntersectionsList } from "./components/IntersectionsList";
+import Loading from "./components/Loading";
+import { StatisticsPanel } from "./components/StatisticsPanel";
+import { TrafficMap } from "./components/TraficMap";
+import useCity from "./hooks/useCity";
+import useTrafficLights from "./hooks/useTrafficLights";
+
+export default function DashboardPage() {
+  const [loading, setLoading] = useState(true);
+  const { getCity } = useCity();
+  const { getAllTrafficLights } = useTrafficLights();
+
+  useEffect(() => {
+    const dataGetter = async () => {
+      setLoading(true);
+      await getCity();
+      await getAllTrafficLights();
+      setLoading(false);
+    };
+
+    dataGetter();
+  }, []);
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <NavBar />
-        <MapView center={{ lat: 45.7410646, lng: 21.2165898 }} zoom={14} checkpoints={checkpoints} />
-      </main>
+    <div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className={styles.page}>
+          <DashboardHeader />
+
+          <main className={styles.main}>
+            <div className={styles.gridContainer}>
+              {/* Left Section */}
+              <div className={styles.leftSection}>
+                <IntersectionsList />
+                <StatisticsPanel />
+              </div>
+
+              {/* Right Section */}
+              <div className={styles.rightSection}>
+                <TrafficMap />
+              </div>
+            </div>
+          </main>
+        </div>
+      )}
     </div>
   );
 }

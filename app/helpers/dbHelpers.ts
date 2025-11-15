@@ -1,11 +1,21 @@
 import { Models } from "appwrite";
-import { Camera, City, Count, Detection, DetectionObject, Intersection, Location, TrafficLight, TrafficStats } from "../models/types";
+import { Camera, City, Count, Detection, DetectionObject, Intersection, Location, TrafficLight, TrafficStats, User } from "../models/types";
+
+export const toUser = (doc: Models.DefaultRow): User => ({
+  id: doc.$id,
+  createdAt: doc.$createdAt,
+  email: doc.email,
+  county: doc.county,
+  sirutaCode: doc.sirutaCode,
+  uatName: doc.uatName,
+});
 
 export const toCity = (doc: Models.DefaultRow): City => ({
   id: doc.$id,
   createdAt: doc.$createdAt,
   name: doc.name,
-  intersections: doc.intersections,
+  trafficLights: doc.intersections,
+  locations: doc.locations,
 });
 
 export const toIntersection = (doc: Models.DefaultRow): Intersection => ({
@@ -23,6 +33,7 @@ export const toTrafficLight = (doc: Models.DefaultRow): TrafficLight => ({
   hasCrosswalk: doc.hasCrosswalk,
   location: doc.location,
   status: doc.status,
+  trafficLightStatus: doc.trafficLightStatus,
 });
 
 export const toCamera = (doc: Models.DefaultRow): Camera => ({

@@ -1,10 +1,32 @@
 import * as MyEnums from "./enums";
 
+export interface HookResponse {
+  success: boolean;
+  message: string;
+  data: unknown;
+}
+
+export interface User {
+  id?: string;
+  createdAt?: string;
+  email: string;
+  county: string;
+  sirutaCode: number;
+  uatName: string;
+}
+export interface User_DB {
+  email: string;
+  county: string;
+  sirutaCode: number;
+  uatName: string;
+}
+
 export interface City {
   id: string;
   createdAt: string;
   name: string;
-  intersections: string[];
+  trafficLights: TrafficLight[];
+  locations: Location[];
 }
 export interface City_DB {
   name: string;
@@ -30,6 +52,7 @@ export interface TrafficLight {
   hasCrosswalk: boolean;
   location: Location;
   status?: MyEnums.TraficLightStatus;
+  trafficLightStatus: MyEnums.TraficLightColorState;
 }
 export interface TrafficLight_DB {
   intersectionId: string;
